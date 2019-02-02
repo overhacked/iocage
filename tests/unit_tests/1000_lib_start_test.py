@@ -21,7 +21,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import mock
+from unittest import mock
 import iocage_lib.ioc_start as ioc_start
 
 
@@ -30,7 +30,7 @@ def test_should_return_mtu_of_first_member(mock_checkoutput):
     mock_checkoutput.side_effect = [bridge_if_config, member_if_config]
 
     mtu = ioc_start.IOCStart("", "", unit_test=True).find_bridge_mtu('bridge0')
-    assert mtu == '1500'
+    assert mtu == '9000'
     mock_checkoutput.assert_has_calls([mock.call(["ifconfig", "bridge0"]),
                                        mock.call(["ifconfig", "bge0"])])
 
@@ -41,7 +41,7 @@ def test_should_return_mtu_of_first_member_with_description(mock_checkoutput):
                                     member_if_config]
 
     mtu = ioc_start.IOCStart("", "", unit_test=True).find_bridge_mtu('bridge0')
-    assert mtu == '1500'
+    assert mtu == '9000'
     mock_checkoutput.assert_has_calls([mock.call(["ifconfig", "bridge0"]),
                                        mock.call(["ifconfig", "bge0"])])
 
@@ -55,7 +55,7 @@ def test_should_return_default_mtu_if_no_members(mock_checkoutput):
     assert mtu == '1500'
     mock_checkoutput.called_with(["ifconfig", "bridge0"])
 
-bridge_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+bridge_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 9000
         ether 00:00:00:00:00:00
         nd6 options=1<PERFORMNUD>
         groups: bridge
@@ -66,7 +66,7 @@ bridge_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST
             ifmaxaddr 0 port 1 priority 128 path cost 20000
 """
 
-bridge_with_description_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+bridge_with_description_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 9000
         description: first-bridge
         ether 00:00:00:00:00:00
         nd6 options=1<PERFORMNUD>
@@ -78,7 +78,7 @@ bridge_with_description_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,
             ifmaxaddr 0 port 1 priority 128 path cost 20000
 """
 
-bridge_with_no_members_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+bridge_with_no_members_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 9000
         description: first-bridge
         ether 00:00:00:00:00:00
         nd6 options=1<PERFORMNUD>
@@ -88,7 +88,7 @@ bridge_with_no_members_if_config = """bridge0: flags=8843<UP,BROADCAST,RUNNING,S
         root id 00:00:00:00:00:00 priority 32768 ifcost 0 port 0
 """
 
-member_if_config = """bge0: flags=8943<UP,BROADCAST,RUNNING,PROMISC,SIMPLEX,MULTICAST> metric 0 mtu 1500
+member_if_config = """bge0: flags=8943<UP,BROADCAST,RUNNING,PROMISC,SIMPLEX,MULTICAST> metric 0 mtu 9000
         options=c019b<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,VLAN_HWCSUM,TSO4,VLAN_HWTSO,LINKSTATE>
         ether 00:00:00:00:00:00
         inet6 fe80::0000:0000:0000:0000%bge0 prefixlen 64 scopeid 0x1
