@@ -14,7 +14,7 @@ install: depends
 uninstall:
 	${PYTHON} -m pip uninstall -y iocage-lib iocage-cli
 test:
-	pytest --zpool $(ZPOOL) --server $(SERVER)
+	pytest --zpool $(ZPOOL) --server $(SERVER) --cov-report term-missing --cov=iocage tests
 help:
 	@echo "    install"
 	@echo "        Installs iocage"
